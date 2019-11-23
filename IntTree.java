@@ -18,21 +18,39 @@ public class IntTree {
 
 
     public static void main(String[] args) {
-        IntTreeNode node = new IntTreeNode(3);
-        IntTree tree = new IntTree(node);
-        //tree.overallRoot.left = new IntTreeNode(2);
+        IntTreeNode root = new IntTreeNode(43);
+        IntTree tree = new IntTree(root);
 
-        tree.add(node, 2);
-        tree.add(node, 6);
-        tree.add(node, 30);
-        tree.add(node, 23);
+        // Constructing the BST
+        tree.add(root, 32);
+        tree.add(root, 22);
+        tree.add(root, 10);
+        tree.add(root, 2);
+        tree.add(root, 12);
+        tree.add(root, 25);
+        tree.add(root, 23);
+        tree.add(root, 27);
+        tree.add(root, 73);
+        tree.add(root, 48);
+        tree.add(root, 45);
+        tree.add(root, 88);
+        tree.add(root, 99);
+        tree.add(root, 100);
 
-        System.out.println(tree.contains(node, 30));
-        tree.remove(30);
-        System.out.println(tree.contains(node, 30));
 
-        System.out.println(tree.overallRoot.right);
+
         //tree.print();
+        //tree.printSideways();
+
+        tree.printLevelOrder(root);
+
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("                               43");    // 31 spaces
+        System.out.println("                   32                      73"); // 11 spaces
+        System.out.println("            22                      48            88"); // 6 spaces
+        System.out.println("       10        25             45                    99"); // 3 spaces
+        System.out.println("      2  12    23  27                                   100"); // 1 space
+
 
     }
 
@@ -44,7 +62,121 @@ public class IntTree {
      // Constructs a binary tree with the given node as its root.
      public IntTree(IntTreeNode overallRoot) {
          this.overallRoot = overallRoot;
+
      }
+
+    private void printLevelOrder(IntTreeNode root)
+    {
+
+        for (int i = 1; i <= 5; i++) {
+            if (i == 1) { // if level equals 1
+                for (int j = 0; j < 31; j++) {
+                    System.out.print(" "); // print this many spaces
+                }
+            }
+            else if (i == 2) {
+                for (int j = 0; j < 19; j++) {
+                    System.out.print(" ");
+                }
+            }
+            else if (i == 3) {
+                for (int j = 0; j < 12; j++) {
+                    System.out.print(" ");
+                }
+            }
+            else if (i == 4) {
+                for (int j = 0; j < 7; j++) {
+                    System.out.print(" ");
+                }
+            }
+            else if (i == 5) {
+                for (int j = 0; j < 6; j++) {
+                    System.out.print(" ");
+                }
+            }
+            printGivenLevel(root, i);
+            System.out.println();
+        }
+    }
+    /* Print nodes at a given level */
+    public void printGivenLevel(IntTreeNode root, int level)
+    {
+        if (root == null)
+            return;
+        if (level == 1) {
+
+            System.out.print(root.data);
+            //System.out.print("");
+        }
+        else if (level == 2)
+        {
+
+            printGivenLevel(root.left, level-1);
+
+            for (int j = 0; j < 12; j++) {
+                System.out.print(" ");
+            }
+            if (root.right == null) {
+                for (int j = 0; j < 11; j++) {
+                    System.out.print(" ");
+                }
+            }
+
+            printGivenLevel(root.right, level-1);
+        }
+        else if (level == 3)
+        {
+
+            printGivenLevel(root.left, level-1);
+
+
+            for (int j = 0; j < 1; j++) {
+                System.out.print(" ");
+            }
+
+            for (int j = 0; j < 11; j++) {
+                //System.out.print("\b");
+            }
+
+            printGivenLevel(root.right, level-1);
+        }
+        else if (level == 4)
+        {
+            printGivenLevel(root.left, level-1);
+            for (int j = 0; j < 34; j++) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j < 6; j++) {
+                System.out.print("\b");
+            }
+            printGivenLevel(root.right, level-1);
+        }
+        else if (level == 5)
+        {
+            printGivenLevel(root.left, level-1);
+            for (int j = 0; j < 40; j++) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j < 2; j++) {
+                System.out.print("\b");
+            }
+            printGivenLevel(root.right, level-1);
+        }
+    }
+
+
+    public void printSideways() {
+        printSideways(overallRoot, " ");
+    }
+
+    private void printSideways(IntTreeNode root, String indent) {
+        if (root != null) {
+            printSideways(root.right, indent + "    ");
+            System.out.println(indent + root.data);
+            printSideways(root.left, indent + "    ");
+        }
+
+    }
 
     // PRINT
     public void print() {
@@ -54,9 +186,9 @@ public class IntTree {
 
     private void print(IntTreeNode root) {
         if (root != null) {
-            print(overallRoot.left);
-            System.out.println(overallRoot.data + " ");
-            print(overallRoot.right);
+            print(root.left);
+            System.out.println(root.data + " ");
+            print(root.right);
         }
     }
 
